@@ -22,6 +22,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
 
+## Changes from Next Starter
+
+- Replaced any Typescript files with Javascript
+- No Storybook installed
+- Uses Supabase for auth and API (no Iron Session)
+
 ## Learn more
 
 To learn more, take a look at the following resources:
