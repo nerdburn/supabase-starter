@@ -1,23 +1,19 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'next/router'
-import { logoutSession } from 'hooks/session'
+import { createClient } from 'util/supabase/component'
 
 export const useLogout = () => {
   const router = useRouter()
-  const queryClient = useQueryClient()
-  const logoutMutation = useMutation({
-    mutationFn: logoutSession,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['basicSession'] })
-    },
-    onError: (error) => {
-      console.error('Logout error', error)
-    },
-  })
 
   const handleLogout = async () => {
-    await logoutMutation.mutateAsync()
-    router.push('/')
+    const supabase = createClient()
+
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      router.push('/')
+    } catch (error) {
+      console.error('Logout error', error)
+    }
   }
 
   return { handleLogout }

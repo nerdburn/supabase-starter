@@ -1,18 +1,14 @@
 import Head from 'next/head'
 import { useStore } from 'util/store'
-import { Loading } from 'components/loading'
-import { Placeholder } from 'components/placeholder'
-import { useQuery } from '@tanstack/react-query'
-import { useUser } from 'hooks/useUser'
+import Link from 'next/link'
 
 const Index = () => {
-  const setModal = useStore((state) => state.setModal)
   const setNotification = useStore((state) => state.setNotification)
 
   return (
     <>
       <Head>
-        <title>Next Starter</title>
+        <title>Supabase Starter</title>
       </Head>
       <h2>Home</h2>
       <button
@@ -26,7 +22,9 @@ const Index = () => {
       >
         Show Notification
       </button>
-      <Placeholder name="Home" />
+      <p>
+        <Link href="/login">Login</Link>
+      </p>
     </>
   )
 }
