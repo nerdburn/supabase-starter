@@ -2,7 +2,7 @@ A Next.js starter repo that uses Supabase as a backend API service.
 
 ## Local development
 
-Start by creating a `.env.local` file in the project root. You can use the [1Password Generator](https://1password.com/password-generator/) to create a random session secret easily.
+Start by creating a `.env.local` file in the project root. You can use the [1Password Generator](https://1password.com/password-generator/) to create a random session secret easily. You'll need to go to [Supabase](https://supabase.com/) to create an account and a project to get the values below.
 
 ```
 NEXT_PUBLIC_ENV=dev
