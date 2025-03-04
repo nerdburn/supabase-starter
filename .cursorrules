@@ -1,0 +1,177 @@
+- You are an expert in Next.js (Pages Router), Node.js, React, Radix primitives, and CSS modules.
+- You follow all the conventions set in the Next Starter repository found at https://github.com/inputlogic/next-starter.
+
+- Code Style and Structure
+
+  - Use functional and declarative programming patterns; avoid classes.
+  - Prefer iteration and modularization over code duplication.
+  - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
+  - Always use camelCase when writing JavaScript.
+  - Always use kebab-case when writing file names.
+  - Prefer functional components with hooks.
+  - Follow Next.js docs for Data Fetching, Rendering, and Routing.
+  - While creating placeholder images as a part of your seed data, use https://placekitten.com/
+  - Avoid enums; use maps instead.
+  - Use functional components.
+  - Use PascalCase for components.
+  - File names for components should be in PascalCase. Rest of the files in kebab-case.
+  - Try to write concise code, but prioritize readability.
+
+- Naming Conventions
+
+  - All components should go in their own folder inside components/. For example, auth-wizard should go in components/auth-wizard.
+  - Use lowercase with dashes for directories (e.g., components/auth-wizard) and file names.
+  - Favor named exports for components.
+
+- Never use Typescript
+
+  - Always use JavaScript, never Typescript.
+
+- UI and Styling
+
+  - Use CSS modules for styles with Sass.
+  - Implement responsive design; use a mobile-first approach.
+  - Use Radix primitives for common UI components, but wrap them in custom components to house their state and styling.
+  - When creating new CSS modules, always @import 'styles/base/variables.scss' at the top of the module.
+
+- Forms
+
+  - Use the Form component from components/form/index.js to build forms.
+  - For individual input fields, import from components/form/inputs.
+  - Use the Notification component from components/notification to build notifications for success and error.
+  - Use React Hook Form with Yup validation through @hookform/resolvers/yup
+  - Implement forms as functional components that accept onSuccess callbacks and optional useForm arguments
+  - Structure form validation:
+    - Define Yup schemas using y.object().shape({}) for form field validation
+    - Include clear error messages in validation rules
+    - Use common validations like .required(), .email() as needed
+  
+  - Form Components:
+    - Import base components from components/form: Form, useForm, TextInput, SubmitButton
+    - Wrap form fields in the <Form> component and pass methods prop
+    - Use semantic input components like TextInput with appropriate type attributes
+    - Include clear placeholders for better UX
+    
+  - Form Submission:
+    - Handle submissions through useForm's onSubmit configuration
+    - Use axiosClient for API requests
+    - Implement proper cache invalidation using queryClient when needed
+    - Execute optional onSuccess callback after successful submission
+
+  - Example Form Structure:
+    ```jsx
+    import { Form, useForm, TextInput, SubmitButton } from 'components/form'
+    import { yupResolver } from '@hookform/resolvers/yup'
+    import * as yup from 'yup'
+    const schema = yup.object().shape({
+      field: yup.string().required()
+    })
+
+    const MyForm = ({ onSuccess }) => {
+      const methods = useForm({
+        resolver: yupResolver(schema),
+        onSubmit: async (data) => {
+          await submitData(data)
+          onSuccess?.()
+        }
+      })
+      return (
+        <Form methods={methods}>
+          <TextInput name="field" />
+          <SubmitButton>Submit</SubmitButton>
+        </Form>
+      )
+    }
+    ```
+
+- Notifications
+
+  - Success and error notification banners are placed using setNotification method in the util/store.js.
+  - Example notification:
+    ```jsx
+    import { useStore } from 'util/store'
+
+    const MyComponent = () => {
+      const setNotification = useStore((state) => state.setNotification)
+      setNotification({
+        type: 'success',
+        message: 'Success!'
+      })
+      return null
+    }
+    ```
+
+- Modals
+
+  - Use the components/modal/index.js to build modals.
+
+- Buttons
+
+  - When making a button, use the Button component from components/button/index.js.
+
+- Data Fetching
+
+  - Always use React Query and Axios for API requests.
+  - Always use hooks/use-query.js with React Query.
+  - Utilize query keys for effective caching.
+  - Use prefetching for improved performance.
+  - Implement proper error and loading states.
+
+- Folder Structure
+
+src/
+  components/
+  hooks/
+  util/
+  pages/
+
+- Hooks
+
+  - Always author hooks in the hooks/ directory.
+  - When I refer to using a hook, check and import it from hooks/ first.
+  - Hooks should be named like useQuery and file named like use-query.js 
+
+- Utilities
+
+  - Always author utilities in the util/ directory.
+  - When I refer to using a utility, check and import it from util/ first.
+  - Utilities should be named like axiosClient and file named like axios-client.js
+
+- API Requests
+
+  - Always use React Query and Axios for API requests.
+  - Use hooks/use-query.js with React Query.
+  - Utilize query keys for effective caching.
+  - Use prefetching for improved performance.
+  - Implement proper error and loading states.
+  - Always use useQuery for GET requests.
+  - Example API query for a GET request:
+    ```jsx
+    import { useQuery } from 'hooks/use-query'
+
+    const { data: me } = useQuery({
+      url: endpoints.userMyProfile,
+      enabled: isLoggedIn === true,
+    })
+    ```
+  - Example API query for PATCH, POST, or DELETE:
+    ```jsx
+    import { axiosClient } from 'util/axios-client'
+    import { queryClient } from 'util/query-client'
+
+    const url = endpoints.teamAdminMembersDetail.replace('{id}', member.id)
+    await axiosClient.patch(url, formData)
+    queryClient.invalidateQueries([endpoints.teamAdminMembers])
+    ```
+
+- Context-Aware Development:
+
+  - Always consider the whole project context when providing suggestions or generating code
+  - Avoid duplicating existing functionality or creating conflicting implementations
+  - Ensure that new code integrates seamlessly with the existing project structure and architecture
+  - Before adding new features or modifying existing ones, review the current project state to maintain consistency and avoid redundancy
+  - When answering questions or providing solutions, take into account previously discussed or implemented features to prevent contradictions or repetitions
+
+  Other
+
+  - Don't use Storybook

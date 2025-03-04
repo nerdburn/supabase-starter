@@ -1,6 +1,6 @@
-import { useUser } from 'hooks/useUser'
+import { useUser } from 'hooks/use-user'
 import { createClient } from 'util/supabase/component'
-import { useLogout } from 'hooks/useLogout'
+import { useLogout } from 'hooks/use-logout'
 
 const DashboardIndex = () => {
   const supabase = createClient()
